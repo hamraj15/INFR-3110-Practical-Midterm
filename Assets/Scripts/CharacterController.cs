@@ -7,9 +7,8 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
 
-    public GameObject player;
-    public float playerSpeed;
-    public GameObject playerCamera;
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,16 +19,14 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();  
+        PlayerMove();  
     }
 
-    private void Move()
+    private void PlayerMove()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            player.transform.position += Vector3.forward * Time.deltaTime * playerSpeed;  
-        }
+        
     }
+}
 
     private void CameraMove()
     {
