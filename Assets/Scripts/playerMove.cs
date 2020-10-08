@@ -9,8 +9,6 @@ public class playerMove : MonoBehaviour
     public GameObject playerCamera;
     public float playerSpeed;
 
-    private Vector3 move;
-
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +25,7 @@ public class playerMove : MonoBehaviour
 
     private void PlayerMove()
     {
-        move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         playerControl.Move(move * Time.deltaTime * playerSpeed);
 
         if (move != Vector3.zero)
@@ -38,6 +36,6 @@ public class playerMove : MonoBehaviour
 
     private void CameraMove()
     {
-        playerCamera.transform.position += (move * Time.deltaTime * playerSpeed);
+        playerCamera.transform.position = new Vector3(playerControl.transform.position.x, playerControl.transform.position.y + 0.5f, playerControl.transform.position.z - 0.8f);
     }
 }
