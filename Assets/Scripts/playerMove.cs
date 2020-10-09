@@ -6,6 +6,10 @@ public class playerMove : MonoBehaviour
 {
 
     private CharacterController playerControl;
+    private float gravity = -9.18f;
+    private bool grounded;
+    private Vector3 velocity;
+
     public GameObject playerCamera;
     public float playerSpeed;
 
@@ -25,6 +29,7 @@ public class playerMove : MonoBehaviour
 
     private void PlayerMove()
     {
+
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         playerControl.Move(move * Time.deltaTime * playerSpeed);
 
@@ -32,10 +37,14 @@ public class playerMove : MonoBehaviour
         {
             gameObject.transform.forward = move;
         }
+
+        velocity.y += gravity * Time.deltaTime;
+        playerControl.Move(velocity * Time.deltaTime);
+
     }
 
     private void CameraMove()
     {
-        playerCamera.transform.position = new Vector3(playerControl.transform.position.x, playerControl.transform.position.y + 0.5f, playerControl.transform.position.z - 0.8f);
+        playerCamera.transform.position = new Vector3(playerControl.transform.position.x, playerControl.transform.position.y + 0.7f, playerControl.transform.position.z - 1f);
     }
 }
