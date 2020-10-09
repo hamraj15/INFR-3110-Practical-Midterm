@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine.UI;
 
 public class DLLPluginManager : MonoBehaviour
 {
+
+    public float timeDone;
+    public List<Text> checkpointTimes;
+    public Text finalTime;
+
 
     const string DLL_NAME = "TimeLoggerDLL";
 
@@ -25,19 +31,24 @@ public class DLLPluginManager : MonoBehaviour
 
     float previousTime = 0.0f;
 
-    public void ResetLoggerTest()
+    public void ResetLoggerTime()
     {
         ResetLogger();
     }
 
-    public void SaveTimeTest(float time)
+    public void SaveTime(float time)
     {
         SaveCheckpointTime(time);
     }
 
-    public float TotalTimeTest()
+    public void TotalTimeDone()
     {
-        return GetTotalTime();
+        timeDone = GetTotalTime();
+    }
+
+    public float ReturnTime()
+    {
+        return timeDone;
     }
 
     public float CheckpointTimeTest(int index)
@@ -63,39 +74,31 @@ public class DLLPluginManager : MonoBehaviour
         previousTime = Time.time;
     }
 
-    // Update is called once per frame
-    void Update()
+    void onDestroy()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        ResetLoggerTime();
+    }
+
+    public void CheckpointHit()
+    {
+        float currentTime = Time.time;
+        float checkpointTime = currentTime - previousTime;
+        previousTime = currentTime;
+
+        SaveTime(checkpointTime);
+    }
+
+    public void SetCheckpointToText()
+    {
+        for (int i = 0; i < GetNumCheckpointsTest(); i++)
         {
-            float currentTime = Time.time;
-            float checkpointTime = currentTime - previousTime;
-            previousTime = currentTime;
-
-            SaveTimeTest(checkpointTime);
-        }
-
-        for (int i = 0; i < 10; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
-            {
-                Debug.Log(CheckpointTimeTest(i));
-            }
-            else
-            {
-                Debug.Log(-1.0f);
-            }
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log(TotalTimeTest());
+            checkpointTimes[i].text = CheckpointTimeTest(i).ToString();
         }
     }
 
-    void OnDestroy()
+    public void SetFinalTimeToText()
     {
-        ResetLoggerTest();
+        finalTime.text = timeDone.ToString();
     }
+
 }

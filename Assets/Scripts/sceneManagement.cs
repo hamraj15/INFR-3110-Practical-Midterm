@@ -16,6 +16,15 @@ public class sceneManagement : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        SceneManager.LoadScene(3);
+        other.GetComponent<DLLPluginManager>().CheckpointHit();
+        other.GetComponent<DLLPluginManager>().TotalTimeDone();
+        other.GetComponent<DLLPluginManager>().SetCheckpointToText();
+        other.GetComponent<DLLPluginManager>().SetFinalTimeToText();
+    }
+
     public void LoadEnd()
     {
         SceneManager.LoadScene(3);
